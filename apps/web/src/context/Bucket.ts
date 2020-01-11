@@ -1,14 +1,15 @@
 import { createContext } from "react";
 
-export interface BucketContext<T> {
+export interface BucketContext {
+  _id?: string;
   owner: string;
-  files: T[];
   size: number;
+  files: File[];
   isEmpty: boolean;
   isLoading: boolean;
-  add(files: T[]): void;
-  remove(files: T[]): void;
-  upload(): Promise<void>;
+  add(files: File[]): void;
+  remove(files: File[]): void;
+  upload(files: File[]): Promise<void>;
 }
 
-export const Bucket = createContext<BucketContext<File>>(null!);
+export const Bucket = createContext<BucketContext>(null!);

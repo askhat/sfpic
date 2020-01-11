@@ -5,13 +5,13 @@ import { UserContext } from "~context";
 import config from "~config/auth0";
 
 /** Provide state for the UserContext */
-export function useAuth0(): UserContext<IdToken, AuthenticationResult> {
+export function useAuth0(): UserContext {
   let [auth0Client, setAuth0Client] = useState<Auth0Client>();
 
   let [isLoading, setLoading] = useState<boolean>(true);
   let [isAuth, setAuth] = useState<boolean>(false);
   let [profile, setProfile] = useState<IdToken>(null!);
-  let [error, setError] = useState<AuthenticationResult>(null!);
+  let [error, setError] = useState<Error>(null!);
 
   /** Login with redirect */
   let login = () => {

@@ -11,7 +11,7 @@ let rpc = axios.create({
   headers: { "Content-Type": "multipart/form-data" }
 });
 
-export function useBucket(_id = nanoid()): BucketContext<File> {
+export function useBucket(): BucketContext {
   let user = useContext(User);
 
   let owner = "";
