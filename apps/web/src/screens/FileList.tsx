@@ -1,13 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { FadeIn } from "animate-css-styled-components";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory, RouteComponentProps } from "react-router-dom";
 import { Card, Text, Button, FileInput, Icon, Spinner } from "~components";
 import { Bucket, User } from "~context";
 import { Colors, Sizes, Alignments, FileTypes } from "~constants";
 import { ellipsize, bytesToSize } from "~helpers";
 
 export function FileList() {
+  let history = useHistory()
   let bucket = useContext(Bucket);
   let user = useContext(User);
 
@@ -32,7 +33,13 @@ export function FileList() {
     setSelectedFiles([]);
   };
 
-  let getReport = () => {
+  let handleUpload = async () => {
+    let id = await bucket.upload(bucket.files);
+    console.log(id)
+    history.push("/files/" + id)
+  };
+
+  let renderReport = () => {
     let { length } = selectedFiles;
     if (length) {
       return `${length} files, ${bytesToSize(selectedSize)}`;
@@ -42,7 +49,7 @@ export function FileList() {
 
   let renderMenu = () => (
     <Menu>
-      <Text align={Alignments.LEFT}>{getReport()}</Text>
+      <Text align={Alignments.LEFT}>{renderReport()}</Text>
       <ButtonBlock>
         {selectedFiles.length ? (
           <Button color={Colors.CORAL} onPress={handleRemove}>
@@ -82,7 +89,7 @@ export function FileList() {
           );
         })}
       </List>
-      <Button large onPress={bucket.upload}>
+      <Button large onPress={handleUpload}>
         Upload
       </Button>
     </Card>

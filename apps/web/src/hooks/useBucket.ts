@@ -1,11 +1,7 @@
-import nano from "nano";
-import nanoid from "nanoid";
 import axios from "axios";
 import { useState, useEffect, useContext } from "react";
 import { BucketContext, User } from "~context";
-import { fileToBase64 } from "~helpers";
 
-let db = nano("http://localhost:5984").use("sfpic");
 let rpc = axios.create({
   baseURL: "http://localhost:3000",
   headers: { "Content-Type": "multipart/form-data" }
@@ -13,11 +9,11 @@ let rpc = axios.create({
 
 export function useBucket(): BucketContext {
   let user = useContext(User);
-
-  let owner = "";
+  let owner = (user.profile as IdToken & { sub: string })?.sub
 
   let [files, setFiles] = useState<File[]>([]);
   let [size, setSize] = useState<number>(0);
+
   let [isEmpty, setEmpty] = useState<boolean>(true);
   let [isLoading, setLoading] = useState<boolean>(false);
 
@@ -39,19 +35,19 @@ export function useBucket(): BucketContext {
     setFiles(files.filter((f: File) => !filesToRemove.includes(f)));
   };
 
-  let upload = async () => {
-    setLoading(true);
-    let payload = files.map(async (f: File) => ({
-      name: f.name,
-      data: await fileToBase64(f),
-      content_type: f.type
-    }));
-    await db.multipart.insert(
-      { owner: user.profile.sub },
-      await Promise.all(payload),
-      _id
-    );
-    setLoading(false);
+  let upload = (filesToUpload: File[] = []) => {
+    return new Promise(async (resolve, reject) => {
+      setLoading(true);
+      try {
+        let formData = new FormData();
+        filesToUpload.forEach(f => formData.append("files", f));
+        let { data } = await rpc.post("/bucket", formData);
+        resolve(data)
+      } catch (err) {
+        reject(err)
+      }
+      setLoading(false);
+    })
   };
 
   return {
