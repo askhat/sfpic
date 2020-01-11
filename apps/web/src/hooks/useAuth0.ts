@@ -1,22 +1,22 @@
 import { useState, useEffect } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
 import Auth0Client from "@auth0/auth0-spa-js/dist/typings/Auth0Client";
-import { Auth0UserProfile, Auth0Error } from "auth0-js";
 import { UserContext } from "~context";
 import config from "~config/auth0";
 
 /** Provide state for the UserContext */
-export function useAuth0(): UserContext<Auth0UserProfile, Auth0Error> {
+export function useAuth0(): UserContext<IdToken, AuthenticationResult> {
   let [auth0Client, setAuth0Client] = useState<Auth0Client>();
 
   let [isLoading, setLoading] = useState<boolean>(true);
   let [isAuth, setAuth] = useState<boolean>(false);
-  let [profile, setProfile] = useState<Auth0UserProfile>(null!);
-  let [error, setError] = useState<Auth0Error>(null!);
+  let [profile, setProfile] = useState<IdToken>(null!);
+  let [error, setError] = useState<AuthenticationResult>(null!);
 
   /** Login with redirect */
   let login = () => {
-    auth0Client?.loginWithRedirect();
+    console.log(location.origin)
+    auth0Client?.loginWithRedirect({ audience: "http://localhost:1234" });
   };
 
   /** Logout with redirect */
@@ -25,21 +25,21 @@ export function useAuth0(): UserContext<Auth0UserProfile, Auth0Error> {
   };
 
   let handleRedirect = async () =>
-    new Promise<Auth0UserProfile>(async (resolve, reject) => {
+    new Promise<IdToken>(async (resolve, reject) => {
       try {
         await auth0Client?.handleRedirectCallback();
         history.pushState("", document.title, location.pathname);
-        resolve(await auth0Client?.getUser());
+        resolve(await auth0Client?.getIdTokenClaims());
       } catch (err) {
         reject(err);
       }
     });
 
   let checkSession = async () =>
-    new Promise<Auth0UserProfile>(async (resolve, reject) => {
+    new Promise<IdToken>(async (resolve, reject) => {
       try {
         await auth0Client?.getTokenSilently();
-        resolve(await auth0Client?.getUser());
+        resolve(await auth0Client?.getIdTokenClaims());
       } catch (err) {
         reject(err);
       }

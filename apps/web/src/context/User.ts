@@ -1,8 +1,7 @@
 import { createContext } from "react";
-import { Auth0UserProfile, Auth0Error } from "auth0-js";
 
-export interface UserContext<P, E> {
-  profile: P;
+export interface UserContext<I, E> {
+  profile: I;
   error: E;
   isAuth: boolean;
   isLoading: boolean;
@@ -10,4 +9,4 @@ export interface UserContext<P, E> {
   logout(): void;
 }
 
-export const User = createContext<UserContext<Auth0UserProfile, Auth0Error>>(null!);
+export const User = createContext<UserContext<IdToken, AuthenticationResult>>(null!);
