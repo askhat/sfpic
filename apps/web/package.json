@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.6.0",
+    "@types/axios": "^0.14.0",
     "animate-css-styled-components": "^1.0.2",
     "axios": "^0.19.1",
     "nano": "^8.1.0",
