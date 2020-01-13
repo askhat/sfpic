@@ -13,9 +13,9 @@ async function bootstrap() {
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
-        jwksUri: "https://dev-7h6ae2vd.auth0.com/.well-known/jwks.json"
+        jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`
       }),
-      issuer: "https://dev-7h6ae2vd.auth0.com/",
+      issuer: `https://${process.env.AUTH0_DOMAIN}/`,
       algorithms: ["RS256"]
     })
   );
