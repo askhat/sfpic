@@ -10,4 +10,4 @@ import { BucketController } from "./bucket.controller";
   providers: [...databaseProviders, BucketService],
   controllers: [BucketController]
 })
-export class BucketModule { }
+export class BucketModule {}

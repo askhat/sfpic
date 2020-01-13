@@ -1,20 +1,36 @@
-import { Controller, Post, Get, Put, Delete, UseInterceptors, UploadedFiles, Param, Body, Res, HttpCode } from "@nestjs/common";
+import {
+  Controller,
+  Post,
+  Get,
+  Put,
+  Delete,
+  UseInterceptors,
+  UploadedFiles,
+  Param,
+  Body,
+  Res,
+  HttpCode
+} from "@nestjs/common";
 import { FilesInterceptor } from "@nestjs/platform-express";
 import { BucketService } from "./bucket.service";
 import { Bucket } from "./bucket.interface";
 import { File } from "./file.interface";
 import { wordGen } from "./helpers";
 
-let dest = process.env.UPLOAD_DIR
+let dest = process.env.UPLOAD_DIR;
 
 @Controller("bucket")
 export class BucketController {
-  constructor(private readonly bucketService: BucketService) { }
+  constructor(private readonly bucketService: BucketService) {}
 
   @Post()
   @HttpCode(201)
   @UseInterceptors(FilesInterceptor("files", 100, { dest }))
-  async create(@Res() res, @Body() { owner }: Bucket<File>, @UploadedFiles() uploadedFiles) {
+  async create(
+    @Res() res,
+    @Body() { owner }: Bucket<File>,
+    @UploadedFiles() uploadedFiles
+  ) {
     try {
       let _id = wordGen(3).join("-");
       let files = uploadedFiles.map(({ originalname, mimetype, filename }) => ({
@@ -23,10 +39,10 @@ export class BucketController {
         type: mimetype
       }));
       await this.bucketService.create({ _id, owner, files });
-      res.send(_id)
+      res.send(_id);
     } catch {
       res.statusCode(500).send();
-      return
+      return;
     }
   }
 

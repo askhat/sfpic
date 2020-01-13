@@ -1,12 +1,12 @@
-import 'reflect-metadata';
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import "reflect-metadata";
+import { NestFactory } from "@nestjs/core";
+import { AppModule } from "./app.module";
 import jwt from "express-jwt";
 import jwks from "jwks-rsa";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors()
+  app.enableCors();
   app.use(
     jwt({
       secret: jwks.expressJwtSecret({
