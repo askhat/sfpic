@@ -24,8 +24,8 @@
     "express-jwt": "^5.3.1",
     "jwks-rsa": "^1.6.0",
     "nano": "^8.1.0",
-    "nanoid": "^2.1.9",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.5.4"
   },
   "devDependencies": {
     "@nestjs/cli": "^6.9.0",
