@@ -26,7 +26,7 @@ export function Welcome() {
   };
 
   if (user.isLoading) return <Spinner />;
-  if (!bucket.isEmpty) return <Redirect to="/files" />;
+  // if (!bucket.isEmpty) return <Redirect to="/files" />;
 
   return (
     <Card extra={renderMenu()}>

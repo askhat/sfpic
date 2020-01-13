@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect, useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BucketContext, User } from "~context";
 
 let rpc = axios.create({
@@ -9,10 +9,10 @@ let rpc = axios.create({
 
 export function useBucket(): BucketContext {
   let user = useContext(User);
-  let owner = (user.profile as IdToken & { sub: string })?.sub
 
-  let [files, setFiles] = useState<File[]>([]);
+  let [owner, setOwner] = useState<string>();
   let [size, setSize] = useState<number>(0);
+  let [files, setFiles] = useState<File[]>([]);
 
   let [isEmpty, setEmpty] = useState<boolean>(true);
   let [isLoading, setLoading] = useState<boolean>(false);
@@ -27,6 +27,12 @@ export function useBucket(): BucketContext {
     rpc.defaults.headers.common.Authorization = `Bearer ${user.profile?.__raw}`;
   }, [user.profile]);
 
+  let open = async (id: string): Promise<void> => {
+    let { data } = await rpc.get("/bucket/" + id);
+    setOwner(data.owner);
+    setFiles(data.files);
+  };
+
   let add = async (filesToAdd: File[]) => {
     setFiles([...filesToAdd, ...files]);
   };
@@ -36,19 +42,25 @@ export function useBucket(): BucketContext {
   };
 
   let upload = (filesToUpload: File[] = []) => {
-    return new Promise(async (resolve, reject) => {
+    return new Promise<string>(async (resolve, reject) => {
       setLoading(true);
       try {
         let formData = new FormData();
         filesToUpload.forEach(f => formData.append("files", f));
         let { data } = await rpc.post("/bucket", formData);
-        resolve(data)
+        resolve(data);
       } catch (err) {
-        reject(err)
+        reject(err);
       }
       setLoading(false);
-    })
+    });
   };
+
+  let download = (ids: string[]): Promise<File[]> => {
+    return Promise.resolve(files);
+  };
+
+  let owner = "";
 
   return {
     owner,
@@ -58,6 +70,8 @@ export function useBucket(): BucketContext {
     isLoading,
     add,
     remove,
-    upload
+    upload,
+    download,
+    open
   };
 }
