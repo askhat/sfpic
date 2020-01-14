@@ -1,6 +1,6 @@
 import { FadeIn } from "animate-css-styled-components";
 import React, { useContext, useEffect, useState } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { Button, Card, FileInput, Icon, Spinner, Text } from "~components";
 import { Alignments, Colors, FileTypes, Sizes } from "~constants";
@@ -13,8 +13,6 @@ export function FileList() {
   let user = useContext(User);
 
   if (user.isLoading) return <Spinner />;
-  // TODO would it make sense to let user see an empty list?
-  // if (bucket.isEmpty) return <Redirect to="/" />;
 
   let [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   let [selectedSize, setSelectedSize] = useState<number>(0);
