@@ -60,8 +60,6 @@ export function useBucket(): BucketContext {
     return Promise.resolve(files);
   };
 
-  let owner = "";
-
   return {
     owner,
     files,

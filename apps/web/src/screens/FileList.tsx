@@ -16,16 +16,24 @@ export function FileList() {
 
   let [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   let [selectedSize, setSelectedSize] = useState<number>(0);
+  let [isRemoteBucket, setIsRemoteBucket] = useState(false);
 
   useEffect(() => {
     let id = history.location.pathname.replace(/\/files\/?/, "");
     if (!id) return;
     bucket.open(id);
+    setIsRemoteBucket(true);
   }, [history.location.pathname]);
 
   useEffect(() => {
     setSelectedSize(selectedFiles.reduce((acc, el) => (acc += el.size), 0));
   }, [selectedFiles]);
+
+  let handleCancel = () => {
+    bucket.remove(bucket.files);
+    // setState isn't syncronous, so...
+    setTimeout(() => history.push("/"), 1);
+  };
 
   let handleCheck = (state: boolean, file: File) => {
     if (state) setSelectedFiles([...selectedFiles, file]);
@@ -42,6 +50,9 @@ export function FileList() {
     history.push("/files/" + id);
   };
 
+  let handleDownload = async () => {
+  }
+
   let renderReport = () => {
     let { length } = selectedFiles;
     if (length) {
@@ -55,15 +66,15 @@ export function FileList() {
       <Text align={Alignments.LEFT}>{renderReport()}</Text>
       <ButtonBlock>
         {selectedFiles.length ? (
-          <Button color={Colors.CORAL} onPress={handleRemove}>
+          !isRemoteBucket && <Button color={Colors.CORAL} onPress={handleRemove}>
             Remove
           </Button>
         ) : (
-          <FileInput color={Colors.CIAN} onChange={bucket.add}>
+          !isRemoteBucket && <FileInput color={Colors.CIAN} onChange={bucket.add}>
             Add More
           </FileInput>
         )}
-        <Button onPress={() => bucket.remove(bucket.files)}>Cancel</Button>
+        <Button onPress={handleCancel}>Cancel</Button>
       </ButtonBlock>
     </Menu>
   );
@@ -75,10 +86,10 @@ export function FileList() {
           return (
             <Item key={file.name}>
               <Icon type={FileTypes.IMAGE}>
-                <input
+                {!isRemoteBucket && <input
                   onChange={e => handleCheck(e.target.checked, file)}
                   type="checkbox"
-                />
+                />}
               </Icon>
               <Info>
                 <Text size={Sizes.LARGE} align={Alignments.LEFT}>
@@ -92,9 +103,15 @@ export function FileList() {
           );
         })}
       </List>
-      <Button large onPress={handleUpload}>
-        Upload
-      </Button>
+      {isRemoteBucket ? (
+        <Button large onPress={handleDownload}>
+        Downlaod
+        </Button>
+      ) : (
+        <Button large onPress={handleUpload}>
+          Upload
+        </Button>
+      )}
     </Card>
   );
 }
