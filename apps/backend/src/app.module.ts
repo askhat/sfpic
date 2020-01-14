@@ -1,8 +1,8 @@
 import { Module } from "@nestjs/common";
 import { BucketModule } from "./bucket.module";
-import { FileModule } from "./file.module";
+import { ZipModule } from "./zip.module";
 
 @Module({
-  imports: [BucketModule, FileModule]
+  imports: [BucketModule, ZipModule]
 })
 export class AppModule {}
