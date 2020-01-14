@@ -16,10 +16,11 @@ export class BucketController {
     try {
       let _id = wordGen(3).join("-");
       let owner = req.user?.sub;
-      let files = uploadedFiles.map(({ originalname, mimetype, filename }) => ({
+      let files = uploadedFiles.map(({ originalname, mimetype, filename, size }) => ({
         _id: filename,
         name: originalname,
-        type: mimetype
+        type: mimetype,
+        size
       }));
       await this.bucketService.create({ _id, owner, files });
       res.send(_id);
