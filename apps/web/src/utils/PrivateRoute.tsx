@@ -1,12 +1,9 @@
 import React, { useContext } from "react";
 import { Route, RouteProps, Redirect } from "react-router-dom";
 import { User } from "~context";
-import { Spinner } from "~components";
 
 export function PrivateRoute({ children, ...props }: RouteProps) {
-  let user = useContext(User);
+  let { isAuth } = useContext(User);
 
-  return (
-    <Route {...props} render={() => (user.isAuth ? children : <Spinner />)} />
-  );
+  return <Route {...props} render={() => (isAuth ? children : <Redirect to="/welcome" />)} />;
 }
