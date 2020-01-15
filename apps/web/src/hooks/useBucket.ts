@@ -29,7 +29,8 @@ export function useBucket(): BucketContext {
 
   let open = async (id: string): Promise<void> => {
     let { data } = await rpc.get("/bucket/" + id);
-    setOwner(data.owner);
+    console.log(data);
+    setOwner(data.owner_id);
     setFiles(data.files);
   };
 
@@ -56,8 +57,20 @@ export function useBucket(): BucketContext {
     });
   };
 
-  let download = (ids: string[]): Promise<File[]> => {
-    return Promise.resolve(files);
+  let download = async (id: string): Promise<void> => {
+    // TODO Reuse enum from the backend
+    let { data } = await rpc({
+      url: "/bucket/" + id,
+      responseType: "blob",
+      params: { view: "blob" }
+    });
+    console.log(data);
+    let url = window.URL.createObjectURL(new Blob([data]));
+    let link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `${id}.zip`);
+    document.body.appendChild(link);
+    link.click();
   };
 
   return {

@@ -14,6 +14,7 @@ export function FileList() {
 
   if (user.isLoading) return <Spinner />;
 
+  let [bucketId, setBucketId] = useState<string>();
   let [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   let [selectedSize, setSelectedSize] = useState<number>(0);
   let [isRemoteBucket, setIsRemoteBucket] = useState(false);
@@ -21,6 +22,7 @@ export function FileList() {
   useEffect(() => {
     let id = history.location.pathname.replace(/\/files\/?/, "");
     if (!id) return;
+    setBucketId(id);
     bucket.open(id);
     setIsRemoteBucket(true);
   }, [history.location.pathname]);
@@ -50,30 +52,33 @@ export function FileList() {
     history.push("/files/" + id);
   };
 
-  let handleDownload = async () => {
-  }
+  let handleDownload = () => {
+    return bucket.download(bucketId);
+  };
 
   let renderReport = () => {
-    let { length } = selectedFiles;
+    let length = selectedFiles?.length;
     if (length) {
       return `${length} files, ${bytesToSize(selectedSize)}`;
     }
-    return `${bucket.files.length} files, ${bytesToSize(bucket.size)} total`;
+    return `${bucket.files?.length} files, ${bytesToSize(bucket.size)} total`;
   };
 
   let renderMenu = () => (
     <Menu>
       <Text align={Alignments.LEFT}>{renderReport()}</Text>
       <ButtonBlock>
-        {selectedFiles.length ? (
-          !isRemoteBucket && <Button color={Colors.CORAL} onPress={handleRemove}>
-            Remove
-          </Button>
-        ) : (
-          !isRemoteBucket && <FileInput color={Colors.CIAN} onChange={bucket.add}>
-            Add More
-          </FileInput>
-        )}
+        {selectedFiles.length
+          ? !isRemoteBucket && (
+              <Button color={Colors.CORAL} onPress={handleRemove}>
+                Remove
+              </Button>
+            )
+          : !isRemoteBucket && (
+              <FileInput color={Colors.CIAN} onChange={bucket.add}>
+                Add More
+              </FileInput>
+            )}
         <Button onPress={handleCancel}>Cancel</Button>
       </ButtonBlock>
     </Menu>
@@ -82,14 +87,16 @@ export function FileList() {
   return (
     <Card extra={renderMenu()} block={bucket.isLoading}>
       <List>
-        {bucket.files.map((file: File) => {
+        {bucket.files?.map((file: File) => {
           return (
             <Item key={file.name}>
               <Icon type={FileTypes.IMAGE}>
-                {!isRemoteBucket && <input
-                  onChange={e => handleCheck(e.target.checked, file)}
-                  type="checkbox"
-                />}
+                {!isRemoteBucket && (
+                  <input
+                    onChange={e => handleCheck(e.target.checked, file)}
+                    type="checkbox"
+                  />
+                )}
               </Icon>
               <Info>
                 <Text size={Sizes.LARGE} align={Alignments.LEFT}>
@@ -105,7 +112,7 @@ export function FileList() {
       </List>
       {isRemoteBucket ? (
         <Button large onPress={handleDownload}>
-        Downlaod
+          Downlaod
         </Button>
       ) : (
         <Button large onPress={handleUpload}>
