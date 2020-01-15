@@ -1,7 +1,7 @@
-import { Controller, Delete, Get, HttpCode, Param, Post, Put, Req, Res, UploadedFiles, UseInterceptors } from "@nestjs/common";
+import { Controller, Delete, Get, HttpCode, Param, Post, Put, Query, Req, Res, UploadedFiles, UseInterceptors } from "@nestjs/common";
 import { FilesInterceptor } from "@nestjs/platform-express";
+import { BucketView } from "./bucket.constants";
 import { BucketService } from "./bucket.service";
-import { wordGen } from "./helpers";
 
 let dest = process.env.UPLOAD_DIR;
 
@@ -12,29 +12,34 @@ export class BucketController {
   @Post()
   @HttpCode(201)
   @UseInterceptors(FilesInterceptor("files", 100, { dest }))
-  async create(@Req() req, @Res() res, @UploadedFiles() uploadedFiles) {
+  async create(
+    @Req() req,
+    @Res() res,
+    @UploadedFiles() files: Express.Multer.File[]
+  ) {
     try {
-      let _id = wordGen(3).join("-");
-      let owner = req.user?.sub;
-      let files = uploadedFiles.map(({ originalname, mimetype, filename, size }) => ({
-        _id: filename,
-        name: originalname,
-        type: mimetype,
-        size
-      }));
-      await this.bucketService.create({ _id, owner, files });
-      res.send(_id);
+      let owner = req.user.sub;
+      let id = await this.bucketService.create(files, owner);
+      res.send(id);
     } catch {
-      res.statusCode(500).send();
-      return;
+      res.status(500).send();
     }
   }
 
   @Get(":id")
-  async inspect(@Res() res, @Param() params) {
+  async inspect(
+    @Res() res,
+    @Param() { id },
+    @Query() { view = BucketView.META }
+  ) {
     try {
-      let { _rev, ...doc } = await this.bucketService.fetch(params.id);
-      res.send(doc);
+      switch (view) {
+        case BucketView.META:
+          res.send(await this.bucketService.fetchMeta(id));
+        case BucketView.BLOB:
+          let blob = await this.bucketService.fetchBlob(id);
+          res.send(blob);
+      }
     } catch (err) {
       res.status(err.statusCode).send();
     }
