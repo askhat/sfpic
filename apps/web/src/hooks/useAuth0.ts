@@ -15,7 +15,6 @@ export function useAuth0(): UserContext {
 
   /** Login with redirect */
   let login = () => {
-    console.log(location.origin)
     auth0Client?.loginWithRedirect({ audience: "http://localhost:1234" });
   };
 

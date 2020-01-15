@@ -29,7 +29,6 @@ export function useBucket(): BucketContext {
 
   let open = async (id: string): Promise<void> => {
     let { data } = await rpc.get("/bucket/" + id);
-    console.log(data);
     setOwner(data.owner_id);
     setFiles(data.files);
   };
@@ -64,7 +63,6 @@ export function useBucket(): BucketContext {
       responseType: "blob",
       params: { view: "blob" }
     });
-    console.log(data);
     let url = window.URL.createObjectURL(new Blob([data]));
     let link = document.createElement("a");
     link.href = url;

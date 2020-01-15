@@ -25,7 +25,6 @@ export class BucketService {
       let buffer = await this.readFile(_id);
       zip.file(name, buffer);
     }
-    console.log(zip)
     return zip.generateAsync({ type: "nodebuffer" });
   }
 
