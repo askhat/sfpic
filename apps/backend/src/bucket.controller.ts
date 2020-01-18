@@ -36,9 +36,12 @@ export class BucketController {
       switch (view) {
         case BucketView.META:
           res.send(await this.bucketService.fetchMeta(id));
+          break;
         case BucketView.BLOB:
-          let blob = await this.bucketService.fetchBlob(id);
-          res.send(blob);
+          res.send(await this.bucketService.fetchBlob(id));
+          break;
+        default:
+          res.status(400).send(`${view} is unknown bucket view type`);
       }
     } catch (err) {
       res.status(err.statusCode).send();
