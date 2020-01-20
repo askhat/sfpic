@@ -115,7 +115,7 @@ export function FileList() {
           Downlaod
         </Button>
       ) : (
-        <Button large onPress={handleUpload}>
+        <Button large onPress={handleUpload} disabled={bucket.isEmpty}>
           Upload
         </Button>
       )}
