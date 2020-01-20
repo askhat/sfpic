@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { DatabaseModule } from "src/database.module";
-import { databaseProviders } from "src/database.providers";
+import { DatabaseModule } from "./database.module";
+import { databaseProviders } from "./database.providers";
 import { BucketService } from "./bucket.service";
 import { BucketController } from "./bucket.controller";
 
@@ -10,4 +10,4 @@ import { BucketController } from "./bucket.controller";
   providers: [...databaseProviders, BucketService],
   controllers: [BucketController]
 })
-export class BucketModule { }
+export class BucketModule {}

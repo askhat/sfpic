@@ -1,40 +1,48 @@
-import { Controller, Post, Get, Put, Delete, UseInterceptors, UploadedFiles, Param, Body, Res, HttpCode } from "@nestjs/common";
+import { Controller, Delete, Get, HttpCode, Param, Post, Put, Query, Req, Res, UploadedFiles, UseInterceptors } from "@nestjs/common";
 import { FilesInterceptor } from "@nestjs/platform-express";
+import { BucketView } from "./bucket.constants";
 import { BucketService } from "./bucket.service";
-import { Bucket } from "./bucket.interface";
-import { File } from "./file.interface";
-import { wordGen } from "./helpers";
 
-let dest = process.env.UPLOAD_DIR
+let dest = process.env.UPLOAD_DIR;
 
 @Controller("bucket")
 export class BucketController {
-  constructor(private readonly bucketService: BucketService) { }
+  constructor(private readonly bucketService: BucketService) {}
 
   @Post()
   @HttpCode(201)
   @UseInterceptors(FilesInterceptor("files", 100, { dest }))
-  async create(@Res() res, @Body() { owner }: Bucket<File>, @UploadedFiles() uploadedFiles) {
+  async create(
+    @Req() req,
+    @Res() res,
+    @UploadedFiles() files: Express.Multer.File[]
+  ) {
     try {
-      let _id = wordGen(3).join("-");
-      let files = uploadedFiles.map(({ originalname, mimetype, filename }) => ({
-        _id: filename,
-        name: originalname,
-        type: mimetype
-      }));
-      await this.bucketService.create({ _id, owner, files });
-      res.send(_id)
+      let owner = req.user.sub;
+      let id = await this.bucketService.create(files, owner);
+      res.send(id);
     } catch {
-      res.statusCode(500).send();
-      return
+      res.status(500).send();
     }
   }
 
   @Get(":id")
-  async inspect(@Res() res, @Param() params) {
+  async inspect(
+    @Res() res,
+    @Param() { id },
+    @Query() { view = BucketView.META }
+  ) {
     try {
-      let { _rev, ...doc } = await this.bucketService.fetch(params.id);
-      res.send(doc);
+      switch (view) {
+        case BucketView.META:
+          res.send(await this.bucketService.fetchMeta(id));
+          break;
+        case BucketView.BLOB:
+          res.send(await this.bucketService.fetchBlob(id));
+          break;
+        default:
+          res.status(400).send(`${view} is unknown bucket view type`);
+      }
     } catch (err) {
       res.status(err.statusCode).send();
     }

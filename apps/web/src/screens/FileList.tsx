@@ -1,27 +1,41 @@
-import React, { useState, useContext, useEffect } from "react";
-import styled from "styled-components";
 import { FadeIn } from "animate-css-styled-components";
-import { Redirect, useHistory, RouteComponentProps } from "react-router-dom";
-import { Card, Text, Button, FileInput, Icon, Spinner } from "~components";
+import React, { useContext, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import styled from "styled-components";
+import { Button, Card, FileInput, Icon, Spinner, Text } from "~components";
+import { Alignments, Colors, FileTypes, Sizes } from "~constants";
 import { Bucket, User } from "~context";
-import { Colors, Sizes, Alignments, FileTypes } from "~constants";
-import { ellipsize, bytesToSize } from "~helpers";
+import { bytesToSize, ellipsize } from "~helpers";
 
 export function FileList() {
-  let history = useHistory()
+  let history = useHistory();
   let bucket = useContext(Bucket);
   let user = useContext(User);
 
   if (user.isLoading) return <Spinner />;
-  // TODO would it make sense to let user see an empty list?
-  if (bucket.isEmpty) return <Redirect to="/" />;
 
+  let [bucketId, setBucketId] = useState<string>();
   let [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   let [selectedSize, setSelectedSize] = useState<number>(0);
+  let [isRemoteBucket, setIsRemoteBucket] = useState(false);
+
+  useEffect(() => {
+    let id = history.location.pathname.replace(/\/files\/?/, "");
+    if (!id) return;
+    setBucketId(id);
+    bucket.open(id);
+    setIsRemoteBucket(true);
+  }, [history.location.pathname]);
 
   useEffect(() => {
     setSelectedSize(selectedFiles.reduce((acc, el) => (acc += el.size), 0));
   }, [selectedFiles]);
+
+  let handleCancel = () => {
+    bucket.remove(bucket.files);
+    // setState isn't syncronous, so...
+    setTimeout(() => history.push("/"), 1);
+  };
 
   let handleCheck = (state: boolean, file: File) => {
     if (state) setSelectedFiles([...selectedFiles, file]);
@@ -35,32 +49,37 @@ export function FileList() {
 
   let handleUpload = async () => {
     let id = await bucket.upload(bucket.files);
-    console.log(id)
-    history.push("/files/" + id)
+    history.push("/files/" + id);
+  };
+
+  let handleDownload = () => {
+    return bucket.download(bucketId);
   };
 
   let renderReport = () => {
-    let { length } = selectedFiles;
+    let length = selectedFiles?.length;
     if (length) {
       return `${length} files, ${bytesToSize(selectedSize)}`;
     }
-    return `${bucket.files.length} files, ${bytesToSize(bucket.size)} total`;
+    return `${bucket.files?.length} files, ${bytesToSize(bucket.size)} total`;
   };
 
   let renderMenu = () => (
     <Menu>
       <Text align={Alignments.LEFT}>{renderReport()}</Text>
       <ButtonBlock>
-        {selectedFiles.length ? (
-          <Button color={Colors.CORAL} onPress={handleRemove}>
-            Remove
-          </Button>
-        ) : (
-          <FileInput color={Colors.CIAN} onChange={bucket.add}>
-            Add More
-          </FileInput>
-        )}
-        <Button onPress={() => bucket.remove(bucket.files)}>Cancel</Button>
+        {selectedFiles.length
+          ? !isRemoteBucket && (
+              <Button color={Colors.CORAL} onPress={handleRemove}>
+                Remove
+              </Button>
+            )
+          : !isRemoteBucket && (
+              <FileInput color={Colors.CIAN} onChange={bucket.add}>
+                Add More
+              </FileInput>
+            )}
+        <Button onPress={handleCancel}>Cancel</Button>
       </ButtonBlock>
     </Menu>
   );
@@ -68,14 +87,16 @@ export function FileList() {
   return (
     <Card extra={renderMenu()} block={bucket.isLoading}>
       <List>
-        {bucket.files.map((file: File) => {
+        {bucket.files?.map((file: File) => {
           return (
             <Item key={file.name}>
               <Icon type={FileTypes.IMAGE}>
-                <input
-                  onChange={e => handleCheck(e.target.checked, file)}
-                  type="checkbox"
-                />
+                {!isRemoteBucket && (
+                  <input
+                    onChange={e => handleCheck(e.target.checked, file)}
+                    type="checkbox"
+                  />
+                )}
               </Icon>
               <Info>
                 <Text size={Sizes.LARGE} align={Alignments.LEFT}>
@@ -89,9 +110,15 @@ export function FileList() {
           );
         })}
       </List>
-      <Button large onPress={handleUpload}>
-        Upload
-      </Button>
+      {isRemoteBucket ? (
+        <Button large onPress={handleDownload}>
+          Downlaod
+        </Button>
+      ) : (
+        <Button large onPress={handleUpload} disabled={bucket.isEmpty}>
+          Upload
+        </Button>
+      )}
     </Card>
   );
 }

@@ -1,21 +1,21 @@
-import 'reflect-metadata';
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import "reflect-metadata";
+import { NestFactory } from "@nestjs/core";
+import { AppModule } from "./app.module";
 import jwt from "express-jwt";
 import jwks from "jwks-rsa";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors()
+  app.enableCors();
   app.use(
     jwt({
       secret: jwks.expressJwtSecret({
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
-        jwksUri: "https://dev-7h6ae2vd.auth0.com/.well-known/jwks.json"
+        jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`
       }),
-      issuer: "https://dev-7h6ae2vd.auth0.com/",
+      issuer: `https://${process.env.AUTH0_DOMAIN}/`,
       algorithms: ["RS256"]
     })
   );
