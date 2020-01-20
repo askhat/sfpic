@@ -95,4 +95,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-Special Thanks to (Swen Wenzel)[https://github.com/swenzel] for providing (this gist)[https://gist.github.com/swenzel/70beac153cdf23803f89] under a quite permissive licencese.
+Special Thanks to [Swen Wenzel](https://github.com/swenzel) for providing [this gist](https://gist.github.com/swenzel/70beac153cdf23803f89) under a quite permissive licencese.
