@@ -17,7 +17,9 @@ export function FileInput({ onChange, children, large, color }: Props) {
   };
 
   let handleFileList = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(Array.from(e.target?.files!));
+      if (e.target.files) {
+          onChange(Array.from(e.target.files));
+      }
   };
 
   return (

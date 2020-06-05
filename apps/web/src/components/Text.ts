@@ -8,6 +8,7 @@ interface Props {
   align?: Alignments;
 }
 
+// enum?
 const pixelSize = new Map<Sizes, string>([
   [Sizes.LARGE, "24px"],
   [Sizes.REGULAR, "20px"],

@@ -11,7 +11,7 @@ export function Spinner({ color = Colors.WHITE }: Props) {
   return (
     <Container>
       <Ellipsis color={color}>
-        <div></div>
+          <!-- <div /> -->
         <div></div>
         <div></div>
         <div></div>

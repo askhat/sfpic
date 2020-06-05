@@ -18,7 +18,9 @@ export class BucketController {
     @UploadedFiles() files: Express.Multer.File[]
   ) {
     try {
+      // const
       let owner = req.user.sub;
+      // const
       let id = await this.bucketService.create(files, owner);
       res.send(id);
     } catch {
@@ -42,6 +44,7 @@ export class BucketController {
           break;
         default:
           res.status(400).send(`${view} is unknown bucket view type`);
+          // break better to add
       }
     } catch (err) {
       res.status(err.statusCode).send();

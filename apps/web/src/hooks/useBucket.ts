@@ -10,6 +10,7 @@ let rpc = axios.create({
 export function useBucket(): BucketContext {
   let user = useContext(User);
 
+  // set value as string - ''
   let [owner, setOwner] = useState<string>();
   let [size, setSize] = useState<number>(0);
   let [files, setFiles] = useState<File[]>([]);
@@ -27,21 +28,28 @@ export function useBucket(): BucketContext {
     rpc.defaults.headers.common.Authorization = `Bearer ${user.profile?.__raw}`;
   }, [user.profile]);
 
+  // const
   let open = async (id: string): Promise<void> => {
+    // const
     let { data } = await rpc.get("/bucket/" + id);
     setOwner(data.owner_id);
     setFiles(data.files);
   };
 
+  // const
+  // async?
   let add = async (filesToAdd: File[]) => {
     setFiles([...filesToAdd, ...files]);
   };
 
+  // const
   let remove = (filesToRemove: File[]) => {
     setFiles(files.filter((f: File) => !filesToRemove.includes(f)));
   };
 
+  // const
   let upload = (filesToUpload: File[] = []) => {
+    // can be rafactored as async Function too, useless Promise
     return new Promise<string>(async (resolve, reject) => {
       setLoading(true);
       try {
@@ -56,6 +64,7 @@ export function useBucket(): BucketContext {
     });
   };
 
+  // const
   let download = async (id: string): Promise<void> => {
     // TODO Reuse enum from the backend
     let { data } = await rpc({

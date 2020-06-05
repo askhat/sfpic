@@ -6,6 +6,7 @@ import { Colors, Shadows } from "~constants";
 
 interface Props {
   extra?: React.ReactNode;
+  // ReactChildren type
   children: React.ReactNode;
   block?: boolean;
 }
