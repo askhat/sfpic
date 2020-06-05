@@ -12,6 +12,7 @@ export function FileList() {
   let bucket = useContext(Bucket);
   let user = useContext(User);
 
+  // not here work with JSX
   if (user.isLoading) return <Spinner />;
 
   let [bucketId, setBucketId] = useState<string>();
@@ -34,11 +35,14 @@ export function FileList() {
   let handleCancel = () => {
     bucket.remove(bucket.files);
     // setState isn't syncronous, so...
+    // get async function and wait result without setTimeout?
+    // in this case timeout can get 0 instead of 0
     setTimeout(() => history.push("/"), 1);
   };
 
   let handleCheck = (state: boolean, file: File) => {
     if (state) setSelectedFiles([...selectedFiles, file]);
+    // no need to else
     else setSelectedFiles(selectedFiles.filter(f => f != file));
   };
 
@@ -53,6 +57,7 @@ export function FileList() {
   };
 
   let handleDownload = () => {
+    // no args
     return bucket.download(bucketId);
   };
 

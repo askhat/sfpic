@@ -9,4 +9,5 @@ export interface UserContext {
   logout(): void;
 }
 
+// ! don't use
 export const User = createContext<UserContext>(null!);

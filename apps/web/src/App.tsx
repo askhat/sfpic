@@ -34,8 +34,8 @@ function App() {
   );
 }
 
-let backgrounds = [Colors.CIAN, Colors.CORAL, Colors.YELLOW];
-let Container = styled.div`
+const backgrounds = [Colors.CIAN, Colors.CORAL, Colors.YELLOW];
+const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;

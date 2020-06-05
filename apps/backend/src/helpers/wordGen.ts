@@ -1,3 +1,7 @@
+// use it in packages?
+
+
+
 // https://gist.github.com/swenzel/70beac153cdf23803f89
 
 //  DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE

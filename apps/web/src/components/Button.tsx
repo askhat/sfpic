@@ -41,11 +41,13 @@ export function Button({
   );
 
   // TODO r u sure this link stuff is gonna work out?
-  if (typeof to === "string") return <Link to={to}>{renderContent()}</Link>;
-
+  // to always string as interface say it, so useless checking
+  if (typeof to === "string") return <Link to={to}>{renderContent}</Link>;
+  // never rise it because return on top will be all the time
   return renderContent();
 }
 
+// dir styles? const
 let Container = styled.button<Pick<Props, "large"> & Pick<Props, "disabled">>`
   border: unset;
   font-size: 20px;
