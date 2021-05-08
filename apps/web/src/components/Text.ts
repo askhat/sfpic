@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { Sizes, Colors, Alignments } from "~constants";
+
+import { Alignments, Colors, Sizes } from "../constants";
 
 interface Props {
   color?: Colors;
@@ -11,7 +12,7 @@ interface Props {
 const pixelSize = new Map<Sizes, string>([
   [Sizes.LARGE, "24px"],
   [Sizes.REGULAR, "20px"],
-  [Sizes.SMALL, "14px"]
+  [Sizes.SMALL, "14px"],
 ]);
 
 export let Text = styled.p<Props>`

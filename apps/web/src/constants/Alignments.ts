@@ -1,5 +1,5 @@
-export const enum Alignments {
+export enum Alignments {
   RIGHT = "right",
   CENTER = "center",
-  LEFT = "left"
+  LEFT = "left",
 }

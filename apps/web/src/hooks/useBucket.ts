@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { BucketContext, User } from "~context";
+
+import { BucketContext, User } from "../context";
 
 let rpc = axios.create({
   baseURL: "http://localhost:3000",
-  headers: { "Content-Type": "multipart/form-data" }
+  headers: { "Content-Type": "multipart/form-data" },
 });
 
 export function useBucket(): BucketContext {
@@ -46,7 +47,7 @@ export function useBucket(): BucketContext {
       setLoading(true);
       try {
         let formData = new FormData();
-        filesToUpload.forEach(f => formData.append("files", f));
+        filesToUpload.forEach((f) => formData.append("files", f));
         let { data } = await rpc.post("/bucket", formData);
         resolve(data);
       } catch (err) {
@@ -61,7 +62,7 @@ export function useBucket(): BucketContext {
     let { data } = await rpc({
       url: "/bucket/" + id,
       responseType: "blob",
-      params: { view: "blob" }
+      params: { view: "blob" },
     });
     let url = window.URL.createObjectURL(new Blob([data]));
     let link = document.createElement("a");
@@ -81,6 +82,6 @@ export function useBucket(): BucketContext {
     remove,
     upload,
     download,
-    open
+    open,
   };
 }

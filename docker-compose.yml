@@ -1,0 +1,31 @@
+version: "3"
+
+volumes:
+    uploads:
+
+services:
+    web:
+        build: ./apps/web
+        ports:
+            - 8081:8080
+        depends_on:
+            - backend
+    backend:
+        build: "./apps/backend"
+        environment:
+            COUCHDB_URL: http://askhat:qqwet@database:5984
+            AUTH0_DOMAIN: dev-7h6ae2vd.auth0.com
+            UPLOAD_DIR: /var/uploads
+        ports:
+            - 3000:3000
+        depends_on:
+            - database
+        volumes:
+            - uploads:/var/uploads
+    database:
+        image: couchdb
+        environment:
+            COUCHDB_USER: askhat
+            COUCHDB_PASSWORD: qqwet
+        ports:
+            - 5984:5984

@@ -1,8 +1,9 @@
 import React from "react";
-import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { Text } from "~components";
-import { Colors, Shadows, Sizes } from "~constants";
+import styled from "styled-components";
+
+import { Text } from "../components";
+import { Colors, Shadows, Sizes } from "../constants";
 
 interface Props {
   disabled?: boolean;
@@ -19,7 +20,7 @@ export function Button({
   color,
   to,
   onPress = () => null,
-  disabled
+  disabled,
 }: Props) {
   let handleClick = () => {
     if (disabled) return;
@@ -62,7 +63,7 @@ let Container = styled.button<Pick<Props, "large"> & Pick<Props, "disabled">>`
     box-shadow: ${Shadows.MEDIUM};
   }
   &:active {
-    filter: ${({disabled}) => !disabled && "brightness(110%)"};
+    filter: ${({ disabled }) => !disabled && "brightness(110%)"};
   }
   &:focus {
     outline: none;

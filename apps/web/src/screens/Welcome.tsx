@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
-import styled from "styled-components";
 import { FadeIn } from "animate-css-styled-components";
+import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
-import { Card, Text, Image, Button, Spinner } from "~components";
-import { Sizes, Alignments } from "~constants";
-import { User, Bucket } from "~context";
+import styled from "styled-components";
+
+import { Button, Card, Image, Spinner, Text } from "../components";
+import { Alignments, Sizes } from "../constants";
+import { Bucket, User } from "../context";
 
 export function Welcome() {
   let user = useContext(User);
@@ -21,7 +22,7 @@ export function Welcome() {
       </UserBadge>,
       <Button key={1} onPress={user.logout}>
         Log Out
-      </Button>
+      </Button>,
     ];
   };
 
@@ -33,7 +34,7 @@ export function Welcome() {
       <Text size={Sizes.LARGE}>
         SFPic is an easy and secure way&nbsp;to share files
       </Text>
-      <Image src={require("~assets/welcome.png")} />
+      <Image src={require("../assets/welcome.png")} />
       {user.isAuth ? (
         <Button large to={"/"}>
           Get Started

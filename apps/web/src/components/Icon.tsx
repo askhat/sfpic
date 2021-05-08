@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { Image } from "~components";
-import { FileTypes } from "~constants";
+
+import { Image } from "../components";
+import { FileTypes } from "../constants";
 
 interface Props {
   type: FileTypes;
@@ -9,11 +10,11 @@ interface Props {
 }
 
 let icons = new Map<FileTypes, string>([
-  [FileTypes.AUDIO, require("~assets/icons/audio.png")],
-  [FileTypes.CODE, require("~assets/icons/code.png")],
-  [FileTypes.DOCUMENT, require("~assets/icons/document.png")],
-  [FileTypes.IMAGE, require("~assets/icons/image.png")],
-  [FileTypes.VIDEO, require("~assets/icons/video.png")]
+  [FileTypes.AUDIO, "url:../assets/icons/audio.png"],
+  [FileTypes.CODE, "url:../assets/icons/code.png"],
+  [FileTypes.DOCUMENT, "url:../assets/icons/document.png"],
+  [FileTypes.IMAGE, "url:../assets/icons/image.png"],
+  [FileTypes.VIDEO, "url:../assets/icons/video.png"],
 ]);
 
 export function Icon({ type, children }: Props) {

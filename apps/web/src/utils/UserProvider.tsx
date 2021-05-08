@@ -1,6 +1,7 @@
 import React from "react";
-import { useAuth0 } from "~hooks";
-import { User } from "~context";
+
+import { User } from "../context";
+import { useAuth0 } from "../hooks";
 
 interface Props {
   children: React.ReactNode;

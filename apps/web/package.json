@@ -5,12 +5,16 @@
   "author": "Askhat Bikmetov <askhat.bikmetov@akvelon.com>",
   "license": "MIT",
   "scripts": {
-    "start": "parcel src/index.html"
+    "build": "parcel build src/index.html",
+    "start": "parcel src/index.html",
+    "start:prod": "parcel serve dist/index.html --port 8080",
+    "postinstall": "sed -i.bak 's_\"//# sourceMappingURL=\"_\"//# source\"+\"MappingURL=\"_' node_modules/@auth0/auth0-react/dist/*.js"
   },
   "dependencies": {
-    "@auth0/auth0-spa-js": "^1.6.0",
+    "@auth0/auth0-spa-js": "^1.15.0",
     "animate-css-styled-components": "^1.0.2",
     "axios": "^0.19.1",
+    "parcel-bundler": "^1.12.5",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
@@ -25,7 +29,6 @@
     "@types/react-dom": "^16.9.4",
     "@types/react-router-dom": "^5.1.3",
     "@types/styled-components": "^4.4.1",
-    "parcel-bundler": "^1.12.4",
     "typescript": "^3.7.3"
   }
 }

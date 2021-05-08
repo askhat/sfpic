@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
 import Auth0Client from "@auth0/auth0-spa-js/dist/typings/Auth0Client";
-import { UserContext } from "~context";
-import config from "~config/auth0";
+import { useEffect, useState } from "react";
+
+import config from "../config/auth0";
+import { UserContext } from "../context";
 
 /** Provide state for the UserContext */
 export function useAuth0(): UserContext {
@@ -57,13 +58,9 @@ export function useAuth0(): UserContext {
     if (!auth0Client) return;
     let isRedirect = location.search.startsWith("?code=");
     if (isRedirect) {
-      handleRedirect()
-        .then(setProfile)
-        .catch(setError);
+      handleRedirect().then(setProfile).catch(setError);
     } else {
-      checkSession()
-        .then(setProfile)
-        .catch(setError);
+      checkSession().then(setProfile).catch(setError);
     }
   }, [auth0Client]);
 

@@ -1,6 +1,7 @@
 import React from "react";
-import { useBucket } from "~hooks";
-import { Bucket } from "~context";
+
+import { Bucket } from "../context";
+import { useBucket } from "../hooks";
 
 interface Props {
   children: React.ReactNode;

@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { Sizes } from "~constants";
+
+import { Sizes } from "../constants";
 
 interface Props {
   round?: boolean;
@@ -9,7 +10,7 @@ interface Props {
 const pixelSize = new Map<Sizes, string>([
   [Sizes.LARGE, "400px"],
   [Sizes.REGULAR, "250px"],
-  [Sizes.SMALL, "25px"]
+  [Sizes.SMALL, "25px"],
 ]);
 
 export let Image = styled.img<Props>`

@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
-import { Button } from "~components";
-import { Colors } from "~constants";
+
+import { Button } from "../components";
+import { Colors } from "../constants";
 
 interface Props {
   large?: boolean;

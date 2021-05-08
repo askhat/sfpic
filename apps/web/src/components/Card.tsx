@@ -1,8 +1,9 @@
+import { BounceInUp } from "animate-css-styled-components";
 import React from "react";
 import styled from "styled-components";
-import { BounceInUp } from "animate-css-styled-components";
-import { Spinner } from "~components";
-import { Colors, Shadows } from "~constants";
+
+import { Spinner } from "../components";
+import { Colors, Shadows } from "../constants";
 
 interface Props {
   extra?: React.ReactNode;
