@@ -1,5 +1,5 @@
 {
-  "name": "@apps/web",
+  "name": "web",
   "version": "0.0.0",
   "main": "index.js",
   "author": "Askhat Bikmetov <askhat.bikmetov@akvelon.com>",

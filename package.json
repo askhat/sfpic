@@ -3,8 +3,8 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "web": "yarn workspace @apps/web run start",
-    "backend": "yarn workspace @apps/backend run start"
+    "web": "yarn workspace web run start",
+    "api": "yarn workspace api run start"
   },
   "workspaces": [
     "apps/*"
