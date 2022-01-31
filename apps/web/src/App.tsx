@@ -7,6 +7,8 @@ import { Colors } from "./constants";
 import { random } from "./helpers";
 import { PrivateRoute, UserProvider, BucketProvider } from "./utils";
 
+document.cookie = "SameSite=Secure;"
+
 function App() {
   return (
     <Container>
