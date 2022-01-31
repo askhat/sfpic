@@ -17,7 +17,7 @@
     "@nestjs/core": "^6.7.2",
     "@nestjs/platform-express": "^6.7.2",
     "express-jwt": "^5.3.1",
-    "jszip": "^3.2.2",
+    "jszip": "^3.7.0",
     "jwks-rsa": "^1.6.0",
     "nano": "^8.1.0",
     "reflect-metadata": "^0.1.13",
