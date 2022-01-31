@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Colors } from "~constants";
+import { Colors } from "../constants";
 
 interface Props {
   color?: Colors;

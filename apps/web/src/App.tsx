@@ -2,10 +2,10 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import { render } from "react-dom";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { Dropzone, Welcome, FileList } from "~screens";
-import { Colors } from "~constants";
-import { random } from "~helpers";
-import { PrivateRoute, UserProvider, BucketProvider } from "~utils";
+import { Dropzone, Welcome, FileList } from "./screens";
+import { Colors } from "./constants";
+import { random } from "./helpers";
+import { PrivateRoute, UserProvider, BucketProvider } from "./utils";
 
 function App() {
   return (

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { BucketContext, User } from "~context";
+import { BucketContext, User } from "../context";
 
 let rpc = axios.create({
   baseURL: "http://localhost:3000",
