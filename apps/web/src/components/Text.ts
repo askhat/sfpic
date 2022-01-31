@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Sizes, Colors, Alignments } from "~constants";
+import { Sizes, Colors, Alignments } from "../constants";
 
 interface Props {
   color?: Colors;

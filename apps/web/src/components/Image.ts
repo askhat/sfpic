@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Sizes } from "~constants";
+import { Sizes } from "../constants";
 
 interface Props {
   round?: boolean;

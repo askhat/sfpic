@@ -2,10 +2,10 @@ import { FadeIn } from "animate-css-styled-components";
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { Button, Card, FileInput, Icon, Spinner, Text } from "~components";
-import { Alignments, Colors, FileTypes, Sizes } from "~constants";
-import { Bucket, User } from "~context";
-import { bytesToSize, ellipsize } from "~helpers";
+import { Button, Card, FileInput, Icon, Spinner, Text } from "../components";
+import { Alignments, Colors, FileTypes, Sizes } from "../constants";
+import { Bucket, User } from "../context";
+import { bytesToSize, ellipsize } from "../helpers";
 
 export function FileList() {
   let history = useHistory();

@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
-import { Card, Image, Text, FileInput, Button, Spinner } from "~components";
-import { User, Bucket } from "~context";
-import { Sizes, Alignments } from "~constants";
+import { Card, Image, Text, FileInput, Button, Spinner } from "../components";
+import { User, Bucket } from "../context";
+import { Sizes, Alignments } from "../constants";
 
 export function Dropzone() {
   let bucket = useContext(Bucket);
@@ -27,7 +27,7 @@ export function Dropzone() {
   return (
     <Card extra={renderMenu()}>
       <Text size={Sizes.LARGE}>Drag stuff over here</Text>
-      <Image src={require("~assets/dropzone.png")} />
+      <Image src={require("../assets/dropzone.png")} />
       <FileInput large onChange={bucket.add}>
         Select files and folders
       </FileInput>

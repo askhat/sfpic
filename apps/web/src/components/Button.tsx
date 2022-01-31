@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { Text } from "~components";
-import { Colors, Shadows, Sizes } from "~constants";
+import { Text } from "../components";
+import { Colors, Shadows, Sizes } from "../constants";
 
 interface Props {
   disabled?: boolean;

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
 import Auth0Client from "@auth0/auth0-spa-js/dist/typings/Auth0Client";
-import { UserContext } from "~context";
-import config from "~config/auth0";
+import { UserContext } from "../context";
+import config from "../config/auth0";
 
 /** Provide state for the UserContext */
 export function useAuth0(): UserContext {
