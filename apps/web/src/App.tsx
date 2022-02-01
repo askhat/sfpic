@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 import { render } from "react-dom";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
