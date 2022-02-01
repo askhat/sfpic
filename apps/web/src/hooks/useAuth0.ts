@@ -23,26 +23,24 @@ export function useAuth0(): UserContext {
 		auth0Client?.logout();
 	};
 
-	let handleRedirect = async () =>
-		new Promise<IdToken>(async (resolve, reject) => {
-			try {
-				await auth0Client?.handleRedirectCallback();
-				history.pushState("", document.title, location.pathname);
-				resolve(await auth0Client?.getIdTokenClaims());
-			} catch (err) {
-				reject(err);
-			}
-		});
+	let handleRedirect = () => new Promise<IdToken>(async (resolve, reject) => {
+		try {
+			await auth0Client?.handleRedirectCallback();
+			history.pushState("", document.title, location.pathname);
+			resolve(await auth0Client?.getIdTokenClaims());
+		} catch (err) {
+			reject(err);
+		}
+	});
 
-	let checkSession = async () =>
-		new Promise<IdToken>(async (resolve, reject) => {
-			try {
-				await auth0Client?.getTokenSilently();
-				resolve(await auth0Client?.getIdTokenClaims());
-			} catch (err) {
-				reject(err);
-			}
-		});
+	let checkSession = () => new Promise<IdToken>(async (resolve, reject) => {
+		try {
+			await auth0Client?.getTokenSilently();
+			resolve(await auth0Client?.getIdTokenClaims());
+		} catch (err) {
+			reject(err);
+		}
+	});
 
 	useEffect(() => {
 		createAuth0Client(config).then(setAuth0Client);
