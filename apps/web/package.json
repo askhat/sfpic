@@ -22,6 +22,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.21",
     "parcel": "^2.2.1",
+    "prettier": "^2.5.1",
     "typescript": "^3.7.3"
   }
 }
