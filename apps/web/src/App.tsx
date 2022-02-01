@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { render } from "react-dom";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Dropzone, Welcome, FileList } from "./screens";
 import { Colors } from "./constants";
@@ -9,7 +8,7 @@ import { PrivateRoute, UserProvider, BucketProvider } from "./utils";
 
 document.cookie = "SameSite=None; Secure"
 
-function App() {
+export function App() {
   return (
     <Container>
       <BrowserRouter>
@@ -46,5 +45,3 @@ let Container = styled.div`
   padding: 10px;
   background: ${backgrounds[random(0, 2)]};
 `;
-
-render(<App />, document.getElementById("root"));
