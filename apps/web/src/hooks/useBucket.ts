@@ -10,7 +10,7 @@ let rpc = axios.create({
 export function useBucket(): BucketContext {
   let user = useContext(User);
 
-  let [owner, setOwner] = useState<string>();
+  let [owner, setOwner] = useState<string>(null!);
   let [size, setSize] = useState<number>(0);
   let [files, setFiles] = useState<File[]>([]);
 
