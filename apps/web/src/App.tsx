@@ -6,33 +6,33 @@ import { Colors } from "./constants";
 import { random } from "./helpers";
 import { PrivateRoute, UserProvider, BucketProvider } from "./utils";
 
-document.cookie = "SameSite=None; Secure"
+document.cookie = "SameSite=None; Secure";
 
 export function App() {
-  return (
-    <Container>
-      <BrowserRouter>
-        <UserProvider>
-          <BucketProvider>
-            <Switch>
-              <Route exact path="/welcome">
-                <Welcome />
-              </Route>
-              <PrivateRoute exact path="/">
-                <Dropzone />
-              </PrivateRoute>
-              <PrivateRoute exact path="/files">
-                <FileList />
-              </PrivateRoute>
-              <PrivateRoute exact path="/files/:bucketId">
-                <FileList />
-              </PrivateRoute>
-            </Switch>
-          </BucketProvider>
-        </UserProvider>
-      </BrowserRouter>
-    </Container>
-  );
+	return (
+		<Container>
+			<BrowserRouter>
+				<UserProvider>
+					<BucketProvider>
+						<Switch>
+							<Route exact path="/welcome">
+								<Welcome />
+							</Route>
+							<PrivateRoute exact path="/">
+								<Dropzone />
+							</PrivateRoute>
+							<PrivateRoute exact path="/files">
+								<FileList />
+							</PrivateRoute>
+							<PrivateRoute exact path="/files/:bucketId">
+								<FileList />
+							</PrivateRoute>
+						</Switch>
+					</BucketProvider>
+				</UserProvider>
+			</BrowserRouter>
+		</Container>
+	);
 }
 
 let backgrounds = [Colors.CIAN, Colors.CORAL, Colors.YELLOW];
