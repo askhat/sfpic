@@ -5,25 +5,25 @@ import { Spinner } from "../components";
 import { Colors, Shadows } from "../constants";
 
 interface Props {
-  extra?: React.ReactNode;
-  children: React.ReactNode;
-  block?: boolean;
+	extra?: React.ReactNode;
+	children: React.ReactNode;
+	block?: boolean;
 }
 
 export function Card({ children, extra, block }: Props) {
-  return (
-    <Container>
-      {extra && <Header>{extra}</Header>}
-      <Content>
-        <Blurring blur={block!}>{children}</Blurring>
-      </Content>
-      {block && (
-        <Blocker>
-          <Spinner color={Colors.GRAY} />
-        </Blocker>
-      )}
-    </Container>
-  );
+	return (
+		<Container>
+			{extra && <Header>{extra}</Header>}
+			<Content>
+				<Blurring blur={block!}>{children}</Blurring>
+			</Content>
+			{block && (
+				<Blocker>
+					<Spinner color={Colors.GRAY} />
+				</Blocker>
+			)}
+		</Container>
+	);
 }
 
 let Container = styled.div`
