@@ -1,4 +1,4 @@
 export const enum BucketView {
-  META = "meta",
-  BLOB = "blob"
+	META = "meta",
+	BLOB = "blob"
 }

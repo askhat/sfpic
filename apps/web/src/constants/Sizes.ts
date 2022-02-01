@@ -1,5 +1,5 @@
 export const enum Sizes {
-  LARGE = "large",
-  REGULAR = "regular",
-  SMALL = "small"
+	LARGE = "large",
+	REGULAR = "regular",
+	SMALL = "small"
 }

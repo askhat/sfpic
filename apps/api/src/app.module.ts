@@ -3,7 +3,8 @@ import { AppController } from "./app.controller";
 import { BucketModule } from "./bucket.module";
 
 @Module({
-  imports: [BucketModule],
-  controllers: [AppController]
+	imports: [BucketModule],
+	controllers: [AppController]
 })
-export class AppModule {}
+export class AppModule {
+}

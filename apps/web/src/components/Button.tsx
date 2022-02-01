@@ -5,45 +5,46 @@ import { Text } from "../components";
 import { Colors, Shadows, Sizes } from "../constants";
 
 interface Props {
-  disabled?: boolean;
-  children: React.ReactNode;
-  large?: boolean;
-  color?: Colors;
-  to?: string;
-  onPress?(): void;
+	disabled?: boolean;
+	children: React.ReactNode;
+	large?: boolean;
+	color?: Colors;
+	to?: string;
+
+	onPress?(): void;
 }
 
 export function Button({
-  children,
-  large,
-  color,
-  to,
-  onPress = () => null,
-  disabled
-}: Props) {
-  let handleClick = () => {
-    if (disabled) return;
-    onPress();
-  };
+												 children,
+												 large,
+												 color,
+												 to,
+												 onPress = () => null,
+												 disabled
+											 }: Props) {
+	let handleClick = () => {
+		if (disabled) return;
+		onPress();
+	};
 
-  let renderContent = () => (
-    <Container
-      color={color}
-      role="button"
-      large={large}
-      onClick={handleClick}
-      disabled={disabled}
-    >
-      <Text color={Colors.WHITE} size={large ? Sizes.LARGE : Sizes.SMALL}>
-        {children}
-      </Text>
-    </Container>
-  );
+	let renderContent = () => (
+		<Container
+			color={color}
+			role="button"
+			large={large}
+			onClick={handleClick}
+			disabled={disabled}
+		>
+			<Text color={Colors.WHITE} size={large ? Sizes.LARGE : Sizes.SMALL}>
+				{children}
+			</Text>
+		</Container>
+	);
 
-  // TODO r u sure this link stuff is gonna work out?
-  if (typeof to === "string") return <Link to={to}>{renderContent()}</Link>;
+	// TODO r u sure this link stuff is gonna work out?
+	if (typeof to === "string") return <Link to={to}>{renderContent()}</Link>;
 
-  return renderContent();
+	return renderContent();
 }
 
 let Container = styled.button<Pick<Props, "large"> & Pick<Props, "disabled">>`
@@ -58,12 +59,15 @@ let Container = styled.button<Pick<Props, "large"> & Pick<Props, "disabled">>`
   transition: box-shadow 0.2s ease-in-out;
   box-shadow: ${Shadows.LIGHT};
   filter: ${({ disabled }) => disabled && "opacity(10%)"};
+
   &:hover {
     box-shadow: ${Shadows.MEDIUM};
   }
+
   &:active {
-    filter: ${({disabled}) => !disabled && "brightness(110%)"};
+    filter: ${({ disabled }) => !disabled && "brightness(110%)"};
   }
+
   &:focus {
     outline: none;
   }
